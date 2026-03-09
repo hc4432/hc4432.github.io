@@ -3,224 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HC團隊 | 專業技術與多元社群官網</title>
+    <title>HC團隊 | 專業技術與精品社群</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #00f2fe;
-            --secondary: #4facfe;
-            --bg-dark: #050505;
-            --card-bg: #111111;
-            --text-main: #ffffff;
-            --text-dim: #a0a0a0;
+            --bg-dark: #000000;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.12);
             --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --glow: 0 0 25px rgba(0, 242, 254, 0.4);
-            --font-en: 'Poppins', sans-serif;
-            --font-zh: 'Noto Sans TC', sans-serif;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: white; overflow-x: hidden; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
 
         /* --- 進入動畫 --- */
         #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-dark);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 9999;
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            position: fixed; top: 0; width: 100%; height: 100%; background: #000;
+            display: flex; justify-content: center; align-items: center; z-index: 9999;
+            transition: 0.8s cubic-bezier(0.7, 0, 0.3, 1);
         }
-        .loader-logo {
-            width: 100px; height: 100px; border-radius: 50%; margin-bottom: 20px;
-            animation: logoEntrance 1.5s forwards ease-out;
-            border: 2px solid var(--primary); box-shadow: 0 0 40px rgba(0, 242, 254, 0.6);
-        }
-        .loader-bar { width: 150px; height: 2px; background: rgba(255,255,255,0.1); position: relative; overflow: hidden; }
-        .loader-bar::after { content: ''; position: absolute; left: 0; top: 0; width: 0%; height: 100%; background: var(--accent-gradient); animation: loadingBar 2s forwards; }
-        @keyframes loadingBar { to { width: 100%; } }
-        .loader-finish { transform: translateY(-100%) !important; }
+        .loader-finish { transform: translateY(-100%); }
 
-        /* --- 基礎樣式 --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-zh); scroll-behavior: smooth; }
-        body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        /* --- 背景流體 --- */
+        .liquid-bg { position: fixed; border-radius: 50%; filter: blur(80px); z-index: -1; opacity: 0.15; animation: liquidFlow 15s infinite alternate ease-in-out; }
+        .liquid-1 { width: 450px; height: 450px; background: #4facfe; top: -10%; left: -10%; }
+        .liquid-2 { width: 350px; height: 350px; background: #00f2fe; bottom: 5%; right: -5%; }
+        @keyframes liquidFlow { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
 
         /* --- 導覽列 --- */
         nav {
-            position: fixed; top: 0; width: 100%; height: 90px;
+            position: fixed; top: 0; width: 100%; height: 75px;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border); z-index: 1000;
             display: flex; align-items: center;
-            background: rgba(5, 5, 5, 0.8); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            z-index: 1000; transition: 0.3s;
         }
-        .nav-content { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-        .logo-group { display: flex; align-items: center; gap: 15px; text-decoration: none; color: #fff; }
-        .pro-hc-logo {
-            font-family: var(--font-en); font-weight: 800; font-size: 1.6rem;
-            display: flex; align-items: center; justify-content: center;
-            width: 50px; height: 50px; border-radius: 12px;
-            border: 2px solid var(--primary); box-shadow: var(--glow);
-        }
-        .nav-links { display: flex; list-style: none; gap: 35px; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-dim); transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary); }
-
-        .pro-discord-btn {
-            display: flex; flex-direction: column; align-items: center;
-            padding: 8px 25px; border-radius: 30px 10px 30px 30px;
-            background: var(--accent-gradient); color: #fff !important; text-decoration: none;
-            box-shadow: var(--glow); transition: 0.3s;
-        }
-        .pro-discord-btn .zh-join { font-weight: 700; font-size: 1rem; }
-        .pro-discord-btn .en-discord { font-size: 0.7rem; text-transform: uppercase; }
 
         /* --- Hero 區域 --- */
-        .hero {
-            height: 100vh; display: flex; align-items: center;
-            background: radial-gradient(circle at 80% 20%, rgba(79, 172, 254, 0.1), transparent 40%);
+        .hero { height: 100vh; display: flex; align-items: center; }
+        .hero-text h1 { font-size: clamp(2.2rem, 7vw, 3.8rem); font-weight: 800; line-height: 1.1; margin-bottom: 25px; }
+        .typewriter-text { color: var(--primary); border-right: 3px solid var(--primary); }
+
+        /* --- 呼吸跳動按鈕 --- */
+        .btn-pulse {
+            position: relative; padding: 15px 35px; border-radius: 50px;
+            background: var(--accent-gradient); color: white !important;
+            text-decoration: none; font-weight: 800; display: inline-flex; align-items: center; gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.4); animation: pulse-btn 2s infinite;
+            transition: 0.3s; font-size: 0.95rem;
         }
-        .hero-text h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 25px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-text p { font-size: 1.2rem; color: var(--text-dim); max-width: 550px; margin-bottom: 40px; }
+        @keyframes pulse-btn {
+            0% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.7); transform: scale(1); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 242, 254, 0); transform: scale(1.03); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); transform: scale(1); }
+        }
+
+        /* --- 精緻化小卡片 --- */
+        .section-padding { padding: 100px 0; }
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
         
-        .pro-main-logo {
-            width: 320px; height: 320px; border-radius: 50%;
-            background: url('https://hc4432.github.io/IMG_1981.jpeg') center/cover;
-            border: 5px solid rgba(255, 255, 255, 0.05); box-shadow: 0 0 50px rgba(0, 242, 254, 0.3);
-            animation: morphing 10s infinite alternate ease-in-out;
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border); border-radius: 25px;
+            padding: 35px 30px; /* 縮小內距 */
+            transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative; opacity: 0;
+            border-left: 1.2px solid rgba(255,255,255,0.15); border-top: 1.2px solid rgba(255,255,255,0.15);
         }
-        @keyframes morphing {
-            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
-            50% { border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%; }
-            100% { border-radius: 67% 33% 47% 53% / 37% 20% 80% 63%; }
-        }
+        .glass-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(255,255,255,0.08); }
+        .card-icon { font-size: 1.8rem; color: var(--primary); margin-bottom: 20px; }
+        .glass-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+        .glass-card p { font-size: 0.85rem; color: #aaa; }
 
-        /* --- 新增：社群特色區域 --- */
-        .features-section { padding: 100px 0; background: rgba(255,255,255,0.02); }
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
-        .feature-card {
-            background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);
-            text-align: center; transition: 0.3s;
-        }
-        .feature-card:hover { border-color: var(--primary); transform: translateY(-10px); background: #1a1a1a; }
-        .feature-icon { font-size: 3rem; margin-bottom: 20px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .feature-card h3 { margin-bottom: 15px; font-size: 1.5rem; }
-        .feature-card p { color: var(--text-dim); font-size: 0.95rem; }
+        /* --- 交叉動態 Reveal --- */
+        .reveal-left { transform: translateX(-80px); }
+        .reveal-right { transform: translateX(80px); }
+        .reveal-up { transform: translateY(50px); }
+        .active { opacity: 1 !important; transform: translate(0) !important; }
 
-        /* --- 團隊成員 --- */
-        .section-padding { padding: 120px 0; }
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px; }
-        .member-card { background: var(--card-bg); border-radius: 28px; padding: 60px 40px; text-align: center; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
-        .member-card:hover { border-color: var(--primary); transform: translateY(-10px); }
-        .member-visual { width: 140px; height: 140px; margin: 0 auto 30px; border-radius: 50%; border: 3px solid var(--primary); padding: 5px; }
-        .member-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-        .placeholder-avatar { width: 100%; height: 100%; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: #444; }
+        /* --- 成員頭像 --- */
+        .member-img { width: 110px; height: 110px; border-radius: 50%; border: 2px solid var(--glass-border); margin-bottom: 20px; object-fit: cover; }
+        .jack-tag { font-size: 0.65rem; color: var(--primary); border: 1px solid var(--primary); padding: 2px 10px; border-radius: 15px; letter-spacing: 1px; margin-top: 15px; display: inline-block; }
 
-        /* --- 頁尾 --- */
-        footer { padding: 80px 0 50px; border-top: 1px solid rgba(255, 255, 255, 0.05); text-align: center; }
-        .footer-maintenance { border: 1px solid var(--primary); padding: 5px 20px; border-radius: 20px; display: inline-block; margin-bottom: 20px; color: var(--primary); font-size: 0.9rem; }
+        footer { padding: 60px 0; text-align: center; border-top: 1px solid var(--glass-border); font-size: 0.75rem; color: #444; }
 
-        /* --- 響應式 --- */
         @media (max-width: 768px) {
-            .hero { flex-direction: column-reverse; text-align: center; padding-top: 120px; height: auto; }
-            .hero-text h1 { font-size: 2.8rem; }
-            .nav-links { display: none; }
-            .feature-grid { grid-template-columns: 1fr; }
+            .hero { text-align: center; flex-direction: column; padding-top: 120px; height: auto; padding-bottom: 60px; }
+            .reveal-left, .reveal-right { transform: translateY(30px); }
         }
-
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <img src="https://hc4432.github.io/IMG_1981.jpeg" class="loader-logo" alt="HC">
-        <div class="loader-bar"></div>
-    </div>
+    <div id="loader"><div style="color:var(--primary); font-size:2rem; font-weight:800; letter-spacing:10px;">HC</div></div>
 
-    <nav id="navbar">
-        <div class="container nav-content">
-            <a href="#" class="logo-group">
-                <div class="pro-hc-logo">HC</div>
-                <div style="font-weight: 700; font-size: 1.4rem; letter-spacing: 2px;">HC團隊</div>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#home">首頁</a></li>
-                <li><a href="#features">特色</a></li>
-                <li><a href="#team">成員</a></li>
-                <li>
-                    <a href="https://discord.gg/CvZm8D8E3" class="pro-discord-btn" target="_blank">
-                        <span class="zh-join">加入</span>
-                        <span class="en-discord">Discord</span>
-                    </a>
-                </li>
-            </ul>
+    <div class="liquid-bg liquid-1"></div>
+    <div class="liquid-bg liquid-2"></div>
+
+    <nav>
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+            <div style="font-weight: 800; font-size: 1.4rem;">HC <span style="font-weight:300">TEAM</span></div>
+            <a href="https://discord.gg/CvZm8D8E3" style="color:white; text-decoration:none; font-size:0.8rem; border: 1px solid var(--glass-border); padding: 5px 15px; border-radius:20px;">JOIN DC</a>
         </div>
     </nav>
 
-    <header id="home" class="hero">
-        <div class="container" style="display: flex; align-items: center; flex-wrap: wrap; width: 100%;">
-            <div class="hero-text reveal">
-                <h1>加入 HC 團隊<br>探索無限精彩</h1>
-                <p>這裡不只是技術的殿堂，更是快樂的源泉。趕快加入我們的 Discord，開啟你的數位新旅程！</p>
-                <a href="https://discord.gg/CvZm8D8E3" class="pro-discord-btn" style="display: inline-flex; padding: 15px 40px; text-decoration: none;">立即加入 Discord</a>
-            </div>
-            <div class="hero-visual reveal" style="flex:1; display:flex; justify-content:center;">
-                <div class="pro-main-logo"></div>
-            </div>
+    <header class="hero container">
+        <div class="hero-text reveal-left">
+            <h1>打造數位的<br><span id="typewriter" class="typewriter-text"></span></h1>
+            <p style="color:#888; margin-bottom: 40px; font-size: 0.95rem; max-width: 450px;">
+                HC 團隊結合了前衛設計、專業維護與迷因社群文化，為您開啟數位精彩篇章。
+            </p>
+            <a href="https://discord.gg/CvZm8D8E3" class="btn-pulse" target="_blank">
+                <i class="fab fa-discord"></i> 立即加入 DC 群組
+            </a>
+            <div style="margin-top:20px; font-size: 0.6rem; color: #444; letter-spacing: 1px;">SECURE LINK VERIFIED BY JACK</div>
+        </div>
+        <div class="hero-visual reveal-right" style="flex:1; display:flex; justify-content:center;">
+             <img src="https://hc4432.github.io/IMG_1981.jpeg" style="width:280px; height:280px; border-radius:50%; box-shadow: 0 0 50px rgba(0,242,254,0.25);">
         </div>
     </header>
 
-    <section id="features" class="features-section">
-        <div class="container">
-            <h2 style="text-align: center; font-size: 2.5rem;" class="reveal">為什麼選擇我們？</h2>
-            <div class="feature-grid">
-                <div class="feature-card reveal">
-                    <i class="fas fa-face-laugh-squint feature-icon"></i>
-                    <h3>迷因宇宙</h3>
-                    <p>最速、最優質的迷因產地，讓你每天保持好心情，社群笑點不間斷！</p>
-                </div>
-                <div class="feature-card reveal">
-                    <i class="fas fa-comments feature-icon"></i>
-                    <h3>熱情聊天</h3>
-                    <p>多元話題、友善環境。無論是技術探討還是生活閒聊，這裡都有你的位置。</p>
-                </div>
-                <div class="feature-card reveal">
-                    <i class="fas fa-film feature-icon"></i>
-                    <h3>精華剪輯</h3>
-                    <p>匯集團隊各類影片精華與高光時刻，最專業的剪輯讓你目不轉睛。</p>
-                </div>
+    <section class="section-padding container">
+        <div class="grid-layout">
+            <div class="glass-card reveal-left">
+                <i class="fas fa-swatchbook card-icon"></i>
+                <h3>精品網站設計</h3>
+                <p>採用最新玻璃擬態語彙與交叉匯集動畫，為每一個專案打造如精品般的數位門面。</p>
+                <div class="jack-tag">MAINTAINED BY JACK</div>
             </div>
-            <div style="text-align: center; margin-top: 50px;" class="reveal">
-                <p style="color: var(--primary); font-weight: bold; font-size: 1.2rem;">別猶豫了，趕快加入 HC 團的 Discord 吧！</p>
+            <div class="glass-card reveal-right">
+                <i class="fas fa-grin-wink card-icon"></i>
+                <h3>社群迷因文化</h3>
+                <p>透過高品質迷因內容與社群互動，連結全球最具創意的靈魂，創造無限快樂。</p>
+                <div class="jack-tag">COMMUNITY CORE</div>
             </div>
         </div>
     </section>
 
-    <section id="team" class="section-padding">
-        <div class="container">
-            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 80px;" class="reveal">核心成員</h2>
-            <div class="team-grid">
-                <div class="member-card reveal">
-                    <div class="member-visual"><div class="placeholder-avatar"><i class="fa-solid fa-cat"></i></div></div>
-                    <h3>哈貓Hahahaha cat</h3>
-                    <span style="color:var(--primary); font-weight:700;">FOUNDER</span>
-                    <p class="member-desc" style="margin-top:15px; color:var(--text-dim)">HC團隊創辦人，社群靈魂人物。</p>
-                </div>
-                <div class="member-card reveal">
-                    <div class="member-visual"><img src="https://jack0852.github.io/S__6504471.jpg" alt="Jack" class="member-img"></div>
-                    <h3>Jack</h3>
-                    <span style="color:var(--primary); font-weight:700;">WEB DEVELOPER</span>
-                    <p class="member-desc" style="margin-top:15px; color:var(--text-dim)">負責團隊官網維護與前端開發技術。</p>
-                </div>
+    <section class="section-padding container">
+        <h2 style="text-align: center; margin-bottom: 60px;" class="reveal-up">核心成員</h2>
+        <div class="grid-layout">
+            <div class="glass-card reveal-left" style="text-align: center;">
+                <img src="https://hc4432.github.io/IMG_1981.jpeg" class="member-img">
+                <h3>哈貓 Hahahaha cat</h3>
+                <p style="color:var(--primary); font-size: 0.75rem; letter-spacing: 2px;">FOUNDER</p>
+            </div>
+            <div class="glass-card reveal-right" style="text-align: center;">
+                <img src="https://jack0852.github.io/S__6504471.jpg" class="member-img">
+                <h3>Jack</h3>
+                <p style="color:var(--primary); font-size: 0.75rem; letter-spacing: 2px;">TECHNICAL MAINTENANCE</p>
+                <div class="jack-tag">SYSTEM ARCHITECT</div>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="container">
-            <div class="footer-maintenance">本網站由 Jack 維護</div>
-            <p style="color: var(--text-dim);">&copy; 2026 HC 團隊 | 專業、創新、有趣</p>
-        </div>
+        <p>&copy; 2026 HC TEAM. DESIGNED & MAINTAINED BY JACK.</p>
     </footer>
 
     <script>
@@ -228,20 +170,32 @@
             setTimeout(() => {
                 document.getElementById('loader').classList.add('loader-finish');
                 reveal();
-            }, 2000);
+                type();
+            }, 1500);
         });
 
         function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
-                    reveals[i].classList.add("active");
+            const reveals = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-up');
+            reveals.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 80) {
+                    el.classList.add('active');
                 }
-            }
+            });
         }
-        window.addEventListener("scroll", reveal);
+        window.addEventListener('scroll', reveal);
+
+        const textEl = document.getElementById('typewriter');
+        const phrases = ["無限可能", "精品設計", "迷因聖地", "技術頂峰"];
+        let pIdx = 0, cIdx = 0, isDel = false;
+        function type() {
+            const curr = phrases[pIdx];
+            textEl.textContent = isDel ? curr.substring(0, cIdx - 1) : curr.substring(0, cIdx + 1);
+            cIdx += isDel ? -1 : 1;
+            let speed = isDel ? 100 : 200;
+            if (!isDel && cIdx === curr.length) { speed = 2000; isDel = true; }
+            else if (isDel && cIdx === 0) { isDel = false; pIdx = (pIdx + 1) % phrases.length; speed = 500; }
+            setTimeout(type, speed);
+        }
     </script>
 </body>
 </html>
